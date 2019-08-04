@@ -1,4 +1,7 @@
 # Dominion
+[![Gitter](https://badges.gitter.im/dominion-framework/community.svg)](https://gitter.im/dominion-framework/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![install size](https://packagephobia.now.sh/badge?p=@dominion-framework/dominion)](https://packagephobia.now.sh/result?p=@dominion-framework/dominion)
+
 Declarative Promise based Node.js framework for REST API
 
 ## Installation
