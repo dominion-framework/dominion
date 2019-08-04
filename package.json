@@ -1,16 +1,15 @@
 {
-  "name": "@dominion/core",
+  "name": "@dominion-framework/dominion",
   "version": "0.2.0",
-  "description": "Declarative, zero dependencies, Promise based Node.js framework for RESTful API's",
+  "description": "Declarative Promise based Node.js framework for REST API with zero dependencies.",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dominion-framework/dominion.git"
+  "dependencies": {},
+  "bin": {
+    "dominion": "scripts/create.js"
   },
-  "author": "Yura Chaikovsky",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dominion-framework/dominion/issues"
+  "author": {
+    "name": "Yura Chaikovsky",
+    "email": "yura.chaikovsky@gmail.com"
   },
-  "homepage": "https://github.com/dominion-framework/dominion#readme"
+  "license": "MIT"
 }
