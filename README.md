@@ -3,8 +3,17 @@ Declarative Promise based Node.js framework for REST API
 
 ## Installation
 ```
-npm i https://github.com/yura-chaikovsky/dominion.git
+npm i @dominion-framework/dominion
 ```
+
+## Quick start
+```
+npx dominion create hello
+npm start
+```
+This will run Node.js server with demo API's. 
+Open http://localhost:7000/hello to check results and examine 
+generated files in folder `components/hello` to see how it works. 
 
 ## Usage
 
