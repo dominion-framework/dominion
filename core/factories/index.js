@@ -54,7 +54,8 @@ let createModelsFactory = function (factoryDescription) {
 
     Object.assign(Model.prototype, factoryDescription.instance, {
         repo: factoryDescription.repository,
-        scheme: factoryDescription.properties
+        scheme: factoryDescription.properties,
+        __name__: factoryDescription.name
     });
 
     Object.defineProperties(Model.prototype, Object.keys(factoryDescription.properties).reduce((propertyDefinition, propertyName) => {

@@ -46,10 +46,10 @@ function createIndex() {
     }
 
     const projectIndex =
-`const Server = require("dominion");
+`const Server = require("@dominion-framework/dominion");
 
-Server.addComponent(require("dominion/components/cors"));
-Server.addComponent(require("dominion/components/logging"));
+Server.addComponent(require("@dominion-framework/dominion/components/cors"));
+Server.addComponent(require("@dominion-framework/dominion/components/logging"));
 
 Server.addComponent(require("./components/hello"));
 
@@ -135,7 +135,7 @@ function createComponentDeclaration(componentName, componentPath) {
 
 function createControllerDeclaration(componentName, componentPath) {
     const controllerDeclaration =
-`const Factories = require("dominion/core/factories");
+`const Factories = require("@dominion-framework/dominion/core/factories");
 
 const ${componentName}Factory = Factories("${componentName}");
 
@@ -275,7 +275,7 @@ module.exports = {
 
 function createFactoryDeclaration(componentName, componentPath) {
     const factoriesDeclaration =
-`const Property = require("dominion/core/property");
+`const Factories = require("@dominion-framework/dominion/core/factories");
 
 
 module.exports = {
