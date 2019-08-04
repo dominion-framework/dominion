@@ -3,19 +3,21 @@
 const fs = require("fs");
 const path = require("path");
 
-const argv = process.argv.splice(2);
+const argv = process.argv;
+const action = argv[2];
+const name = argv.length === 4? argv[3] : argv[4];
+const repo = argv.length === 4? undefined : argv[4];
 
-switch (argv[0]) {
+switch (action) {
     case "create":
-        createComponent(argv[1]);
+        createComponent(name, repo);
         break;
     default:
-        console.error(`There is no '${argv[0]}' command. Have you misspell?`);
+        console.error(`There is no '${action}' command. Have you misspell?`);
 }
 
 
-
-function createComponent(componentName) {
+function createComponent(componentName, repo) {
     const componentPath = `components/${componentName}`;
     componentName = componentName.split("/").map(s => s[0].toUpperCase() + s.substring(1)).join("");
 
@@ -34,7 +36,11 @@ function createComponent(componentName) {
 
     createComponentDeclaration(componentName, componentPath);
     createControllerDeclaration(componentName, componentPath);
-    createFactoryDeclaration(componentName, componentPath);
+    if(repo) {
+        createFactoryDeclarationWithRepository(componentName, componentPath);
+    } else {
+        createFactoryDeclaration(componentName, componentPath);
+    }
     addComponentToProject(componentName, componentPath);
 
     console.log(`Component '${componentName}' created in ${path.resolve(componentPath)}.`);
@@ -202,77 +208,6 @@ module.exports = {
     fs.writeFileSync(path.resolve(componentPath, "controller.js"), controllerDeclaration, 'utf8');
 }
 
-function createControllerWithRepoDeclaration(componentName, componentPath) {
-    const controllerDeclaration =
-`const Errors = require("dominion/core/errors");
-const Factories = require("dominion/core/factories");
-
-const ${componentName}Factory = Factories("${componentName}");
-
-
-module.exports = {
-
-    path: ${componentName}Factory.__model__.name,
-    
-    factory: ${componentName}Factory,
-
-    GET: [
-        //${componentName.toLowerCase()}?offset=0&limit=10
-        function (offset = 0, limit = 10) {
-            // @summary:
-            // @description:
-
-            return ${componentName}Factory.find({}, offset, limit);
-        }
-        
-        //${componentName.toLowerCase()}/42
-        function (invitationsId) {
-            // @summary:
-            // @description:
-
-            return ${componentName}Factory.find({}, offset, limit);
-        }
-
-    ],
-
-    POST: [
-        //${componentName.toLowerCase()}/
-        function () {
-            return ${componentName}Factory.new(this.request.body)
-                .then(invitation => invitation.save())
-                .then(invitation => InvitationsFactory.get({id: invitation.id}));
-        }
-    ],
-
-    PUT: [
-        //${componentName.toLowerCase()}/42
-        function (invitationsId) {
-            return ${componentName}Factory.get({id: invitationsId})
-                .then(invitation => invitation.populate(this.request.body))
-                .then(invitation => invitation.save());
-        }
-    ],
-
-    DELETE: [
-        //${componentName.toLowerCase()}/42
-        function (invitationsId) {
-            return ${componentName}Factory.get({id: invitationsId})
-                .then((invitation) => {
-                    return invitation.remove();
-                })
-                .then((result) => {
-                    if (result.affectedRows) {
-                        this.response.status = this.response.statuses._204_NoContent;
-                    }
-                });
-        }
-    ]
-
-};    
-`;
-    fs.writeFileSync(path.resolve(componentPath, "controller.js"), controllerDeclaration, 'utf8');
-}
-
 function createFactoryDeclaration(componentName, componentPath) {
     const factoriesDeclaration =
 `const Property = require("@dominion-framework/dominion/core/property");
@@ -302,6 +237,50 @@ module.exports = {
 };   
 `;
     fs.writeFileSync(path.resolve(componentPath, "factory.js"), factoriesDeclaration, 'utf8');
+}
+
+function createFactoryDeclarationWithRepository(componentName, componentPath) {
+    const factoriesDeclaration =
+        `const Property = require("@dominion-framework/dominion/core/property");
+const ${componentName}Repository = require("./repository");
+
+
+module.exports = {
+
+    name: "${componentName}",
+    
+    repository: ${componentName}Repository,
+
+    properties: {
+        id: Property.id(),
+        guid: Property.string().example("123e4567-e89b-12d3-a456-426655440000"),
+        email: Property.string().required().example("my.name@example.com"),
+        state: Property.enum(["open", "close"]),
+        parentId: Property.model("${componentName}"),
+        creationTime: Property.date().private(),
+        modificationTime: Property.date().private()
+    },
+
+    factory: {
+        
+    },
+
+    instance: { 
+        
+    }
+};   
+`;
+    const repositoryDeclaration =
+        `const Repositories = require("@dominion-framework/repository-mysql");
+
+
+module.exports = Repositories.create('${componentName.toLowerCase()}_table_name', {
+
+});    
+`;
+
+    fs.writeFileSync(path.resolve(componentPath, "factory.js"), factoriesDeclaration, 'utf8');
+    fs.writeFileSync(path.resolve(componentPath, "repository.js"), repositoryDeclaration, 'utf8');
 }
 
 function addComponentToProject(componentName, componentPath) {
