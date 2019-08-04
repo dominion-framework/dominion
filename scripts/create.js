@@ -275,7 +275,7 @@ module.exports = {
 
 function createFactoryDeclaration(componentName, componentPath) {
     const factoriesDeclaration =
-`const Factories = require("@dominion-framework/dominion/core/factories");
+`const Property = require("@dominion-framework/dominion/core/property");
 
 
 module.exports = {
