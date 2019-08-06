@@ -26,14 +26,14 @@ class Server {
         this.server = Http.createServer(Config.server, Router.handle);
         this.server.once("error", error => {
             if (error.code === 'EADDRINUSE') {
-                console.log('\x1b[31m%s\x1b[0m', `Failed to start server at ${Config.server.protocol}://${Config.server.host}:${Config.server.port}/. Port ${Config.server.port} is in use.`);
+                console.log('\x1b[31m%s\x1b[0m', `Server failed to start at ${Config.server.protocol}://${Config.server.host}:${Config.server.port}/. Port ${Config.server.port} is in use.`);
             } else {
                 console.log(error);
             }
         });
         this.server.listen(Config.server, () => {
             componentsBootstrap.call(this);
-            console.log('\x1b[32m%s\x1b[0m', `Server running at ${Config.server.protocol}://${Config.server.host}:${Config.server.port}/ in ${environment} mode...`);
+            console.log('\x1b[32m%s\x1b[0m', `Server is running at ${Config.server.protocol}://${Config.server.host}:${Config.server.port}/ in ${environment} mode...`);
         });
     }
 
