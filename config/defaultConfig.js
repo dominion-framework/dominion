@@ -2,9 +2,9 @@ module.exports = {
     server: {
         protocol: "https",
         host: "localhost",
-        port: 7000,
+        port: 7042,
         // No slash in the end.
-        url: "http://localhost"
+        url: "http://localhost:7042"
     },
 
     router: {
@@ -16,7 +16,7 @@ module.exports = {
 
     cors: {
         // e.g. * | ["example.com"] | () => {} (synchronous callback function with Message context returning array of allowed origins)
-        origin: "localhost:7000",
+        origin: "localhost:7042",
         methods: ["OPTIONS", "GET", "POST", "PUT", "DELETE"],
         headers: ["Content-Type", "Set-Cookies", "Authorization"],
         credentials: false,

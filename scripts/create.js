@@ -94,9 +94,9 @@ module.exports = config;
     server: {
         protocol: "http",
         host: "localhost",
-        port: 7000,
+        port: 7042,
         // No slash in the end
-        url: "http://localhost:7000"
+        url: "http://localhost:7042"
     },
 
     router: {
@@ -108,7 +108,7 @@ module.exports = config;
 
     cors: {
         // e.g. * | ["example.com"] | () => {} (synchronous callback function with Message context returning array of allowed origins)
-        origin: ["http://localhost:7000", "https://editor.swagger.io"],
+        origin: ["http://localhost:7042", "https://editor.swagger.io"],
         methods: ["OPTIONS", "GET", "POST", "PUT", "DELETE"],
         headers: ["Content-Type", "Set-Cookies", "Authorization"],
         credentials: false,
@@ -154,7 +154,7 @@ module.exports = {
         //${componentName.toLowerCase()}?offset=0&limit=10
         function (offset = 0, limit = 10) {
             // @summary: ${componentName === "Hello"? "Demo endpoint with optional arguments" : ""}
-            // @description: ${componentName === "Hello"? `Open http://localhost:7000/${componentName.toLowerCase()}?offset=0&limit=10 to see results` : ""}
+            // @description: ${componentName === "Hello"? `Open http://localhost:7042/${componentName.toLowerCase()}?offset=0&limit=10 to see results` : ""}
 
             ${componentName === "Hello"? 
             "return \`Welcome to Dominion! Nice to meet you! [\${offset}, \${limit}]\`;"
@@ -167,7 +167,7 @@ module.exports = {
         //${componentName.toLowerCase()}/42
         function (${componentName.toLowerCase()}Id) {
             // @summary: '@summary' and '@description' annotations will be used for generating OpenApi docs
-            // @description: Open http://localhost:7000/${componentName.toLowerCase()}/42 to see results 
+            // @description: Open http://localhost:7042/${componentName.toLowerCase()}/42 to see results 
             
             return ${componentName}Factory.new({
                 id: +${componentName.toLowerCase()}Id,
