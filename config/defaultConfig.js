@@ -16,7 +16,7 @@ module.exports = {
 
     cors: {
         // e.g. * | ["example.com"] | () => {} (synchronous callback function with Message context returning array of allowed origins)
-        origin: "localhost:7042",
+        origin: ["localhost:7042"],
         methods: ["OPTIONS", "GET", "POST", "PUT", "DELETE"],
         headers: ["Content-Type", "Set-Cookies", "Authorization"],
         credentials: false,
