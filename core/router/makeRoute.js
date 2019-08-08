@@ -11,12 +11,13 @@ const FN_GET_ANNOTATION = /\/\/\s+@(\w+):?\s(.*)/g;
 const ID_OPTIONAL_START = '(?=.*';
 const ID_OPTIONAL_END = '=([^&\\s]+)|.*)';
 
-const makeRoute = function(method, handler, rootPath = '', permission = null){
+const makeRoute = function(method, handler, rootPath = '', factory, permission = null){
     const parsedFunction = reflection(handler);
 
     return {
         method,
         handler,
+        factory,
         arguments: parsedFunction.arguments,
         annotations: parsedFunction.annotations,
         permission: parsedFunction.annotations.permission ?

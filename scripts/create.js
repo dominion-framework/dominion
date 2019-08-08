@@ -157,7 +157,7 @@ module.exports = {
             // @description: ${componentName === "Hello"? `Open http://localhost:7042/${componentName.toLowerCase()}?offset=0&limit=10 to see results` : ""}
 
             ${componentName === "Hello"? 
-            "return \`Welcome to Dominion! Nice to meet you! [\${offset}, \${limit}]\`;"
+            "return HelloFactory.new({message: `Welcome to Dominion! Nice to meet you! [${offset}, ${limit}]` });"
             :
             "return ;"
             }
@@ -180,7 +180,7 @@ module.exports = {
 
     POST: [
         //${componentName.toLowerCase()}
-        function (model) {
+        function (id) {
             ${componentName === "Hello"? "// @path: custom\\/url\\/(\\d+)" : ""}
                         
             return ;
@@ -188,16 +188,16 @@ module.exports = {
     ],
 
     PUT: [
-        //${componentName.toLowerCase()}
-        function () {
+        //${componentName.toLowerCase()}/42
+        function (${componentName.toLowerCase()}Id) {
             
             return ;
         }
     ],
 
     DELETE: [
-        //${componentName.toLowerCase()}
-        function () {
+        //${componentName.toLowerCase()}/42
+        function (${componentName.toLowerCase()}Id) {
             
             return ;
         }
@@ -219,10 +219,11 @@ module.exports = {
 
     properties: {
         id: Property.id(),
+        message: Property.string().required(),
         guid: Property.string().example("123e4567-e89b-12d3-a456-426655440000"),
-        email: Property.string().required().example("my.name@example.com"),
+        email: Property.string().example("my.name@example.com"),
         state: Property.enum(["open", "close"]),
-        parentId: Property.model("${componentName}"),
+        parentId: Property.model("${componentName}").private(),
         creationTime: Property.date().private(),
         modificationTime: Property.date().private()
     },
@@ -253,10 +254,11 @@ module.exports = {
 
     properties: {
         id: Property.id(),
+        message: Property.string().required(),
         guid: Property.string().example("123e4567-e89b-12d3-a456-426655440000"),
-        email: Property.string().required().example("my.name@example.com"),
+        email: Property.string().example("my.name@example.com"),
         state: Property.enum(["open", "close"]),
-        parentId: Property.model("${componentName}"),
+        parentId: Property.model("${componentName}").private(),
         creationTime: Property.date().private(),
         modificationTime: Property.date().private()
     },

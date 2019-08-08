@@ -6,7 +6,7 @@ const allowedMethods = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "WS"];
 
 const getHandlersDefinitions = function (controller) {
 
-    const controllerRoot = controller.path.toLowerCase();
+    const controllerRoot = (controller.factory? controller.factory.__model__.name : controller.path).toLowerCase();
     const permissions = controller.permissions || {};
 
     const controllerHandlers = Object.keys(controller)
@@ -22,7 +22,7 @@ const getHandlersDefinitions = function (controller) {
 
     return controllerHandlers.reduce((routeHandlers, method) => {
         return routeHandlers.concat(controller[method].map(
-            handler => Router.makeRoute(method, handler, controllerRoot, permissions[method])))
+            handler => Router.makeRoute(method, handler, controllerRoot, controller.factory, permissions[method])))
     }, []);
 };
 

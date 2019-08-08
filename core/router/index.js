@@ -53,6 +53,15 @@ class Router {
             messagePromise = messagePromise.then(interceptorFunction.bind(message));
         });
         messagePromise
+            .then(body => {
+                if (body
+                    && handler.factory
+                    && ((Array.isArray(body) && !body.every(model => model instanceof handler.factory))
+                        || !(body instanceof handler.factory))) {
+                    throw new Errors.Fatal(`Response has to be an instance or instances array of '${handler.factory.__model__.name}' factory. But given: ${body}`);
+                }
+                return body;
+            })
             .catch(function (error) {
                 if (error instanceof Errors.NotFound
                     || (error instanceof Errors.Database && error.originalError.errno === 1452 /* ER_NO_REFERENCED_ROW_2 */)) {
