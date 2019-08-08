@@ -73,7 +73,7 @@ const getStringRegexp = function (args, rootPath) {
     } else {
         stringRegexp = args.required.reduce(function (previousValue, currentItem, index) {
             if (currentItem.name === rootPath.replace(/\W/g,'')) {
-                return previousValue + rootPath + ID_PATTERN_END;
+                return previousValue + rootPath + ID_PATTERN_END + (args.required.length - 1 !== index? "/" : "");
             } else {
                 if (args.required.length - 1 === index && args.required.indexOf(rootPath)) {
                     return previousValue + currentItem.name + ID_PATTERN + rootPath;
