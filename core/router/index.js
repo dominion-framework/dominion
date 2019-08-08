@@ -56,8 +56,8 @@ class Router {
             .then(body => {
                 if (body
                     && handler.factory
-                    && ((Array.isArray(body) && !body.every(model => model instanceof handler.factory))
-                        || !(body instanceof handler.factory))) {
+                    && ((Array.isArray(body) && !body.every(model => model instanceof handler.factory.__model__))
+                        || !(body instanceof handler.factory.__model__))) {
                     throw new Errors.Fatal(`Response has to be an instance or instances array of '${handler.factory.__model__.name}' factory. But given: ${body}`);
                 }
                 return body;
