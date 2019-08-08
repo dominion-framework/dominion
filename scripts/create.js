@@ -180,7 +180,7 @@ module.exports = {
 
     POST: [
         //${componentName.toLowerCase()}
-        function (id) {
+        function (${componentName === "Hello" ? "id" : ""}) {
             ${componentName === "Hello"? "// @path: custom\\/url\\/(\\d+)" : ""}
                         
             return ;
