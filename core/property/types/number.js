@@ -41,10 +41,6 @@ class NumberProperty extends DefaultProperty {
         return this;
     }
 
-    price() {
-        return this.integer().min(0);
-    }
-
 }
 
 module.exports = NumberProperty;
