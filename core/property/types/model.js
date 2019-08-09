@@ -14,9 +14,17 @@ class ModelProperty extends DefaultProperty {
 
         this.modelName = modelName;
 
+        let primaryKeyName = Object.entries(this.modelName).find(([keyName, property]) => property.isPrimaryKey);
+
+        if (primaryKeyName) {
+            primaryKeyName = primaryKeyName[1];
+        } else {
+            throw new Errors.Fatal(`Model '${value}' referred in property ${propertyName} should have property marked as primary key (.id(), .uuid() or .primaryKey())`);
+        }
+
         this._addValidator((value, propertyName) => {
             if (value != null && (
-                (typeof value === "object" && (!PrimaryKeyPattern.test(value.id)))
+                (typeof value === "object" && (!PrimaryKeyPattern.test(value[primaryKeyName])))
                 || (typeof value !== "object" && (!PrimaryKeyPattern.test(value)))
             )
             ) {
@@ -39,7 +47,7 @@ class ModelProperty extends DefaultProperty {
         this._addOutputModification((outputObject, propertyName) => {
             if (outputObject[propertyName] !== null) {
                 outputObject[propertyName] = {
-                    id: outputObject[propertyName],
+                    [primaryKeyName]: outputObject[propertyName],
                     model: this.modelName,
                     link: Config.router.urlPrefix + this.modelName.toLowerCase() + "/" + outputObject[propertyName]
                 };
@@ -47,7 +55,7 @@ class ModelProperty extends DefaultProperty {
         });
 
         this._inputModification = (value) => {
-            return (value !== null && typeof value === "object" && PrimaryKeyPattern.test(value.id)) ? value.id : value;
+            return (value !== null && typeof value === "object" && PrimaryKeyPattern.test(value[primaryKeyName])) ? value[primaryKeyName] : value;
         };
     }
 

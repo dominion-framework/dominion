@@ -11,11 +11,11 @@ const SetPropertyType           = require("./types/set");
 PropertyTypes.define({
 
     id() {
-        return new NumberPropertyType().primaryKey().integer().min(1);
+        return new NumberPropertyType().integer().min(1).primaryKey();
     },
 
     uuid() {
-        return new StringPropertyType().pattern(/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89ab][a-f\d]{3}-[a-f\d]{12}$/);
+        return new StringPropertyType().pattern(/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89ab][a-f\d]{3}-[a-f\d]{12}$/).primaryKey();
     },
 
     number() {
