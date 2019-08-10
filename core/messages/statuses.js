@@ -29,7 +29,7 @@ module.exports = {
         "message": "Accepted",
         "emptyBody": false
     },
-    "203_Non-AuthoritativeInformation": {
+    _203_Non_AuthoritativeInformation: {
         "code": 203,
         "message": "Non-Authoritative Information",
         "emptyBody": false
@@ -49,7 +49,7 @@ module.exports = {
         "message": "Partial Content",
         "emptyBody": false
     },
-    "207_Multi-Status": {
+    _207_Multi_Status: {
         "code": 207,
         "message": "Multi-Status",
         "emptyBody": false
