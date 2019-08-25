@@ -6,9 +6,10 @@ const ModelPrototype            = require("./modelPrototype");
 const factoryCollection = new Map();
 
 const Factories = function (factoryName) {
-    factoryName = factoryName.toLowerCase();
-    if (factoryCollection.has(factoryName)) {
-        return factoryCollection.get(factoryName);
+    const factory = factoryCollection.get(factoryName.toLowerCase());
+
+    if(factory) {
+        return factory;
     } else {
         throw new Errors.Fatal(`Factory '${factoryName}' is not defined.`);
     }
@@ -45,12 +46,12 @@ let createModelsFactory = function (factoryDescription) {
     let ModelFactoryInstance = new ModelFactory();
 
     let Model ={[factoryDescription.name]: class extends ModelPrototype {
-        constructor(props) {
-            super();
-            this.__properties__ = {};
-            props && this.populate(props);
-        }
-    } }[factoryDescription.name];
+            constructor(props) {
+                super();
+                this.__properties__ = {};
+                props && this.populate(props);
+            }
+        } }[factoryDescription.name];
 
     Object.assign(Model.prototype, factoryDescription.instance, {
         repo: factoryDescription.repository,
