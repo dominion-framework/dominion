@@ -6,7 +6,7 @@ const allowedMethods = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "WS"];
 
 const getHandlersDefinitions = function (controller) {
 
-    const controllerRoot = (controller.factory? controller.factory.__model__.name : controller.path).toLowerCase();
+    const controllerRoot = controller.factory? controller.factory.__model__.name : controller.path;
     const permissions = controller.permissions || {};
 
     const controllerHandlers = Object.keys(controller)

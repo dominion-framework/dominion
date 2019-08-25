@@ -3,13 +3,15 @@ const Config                    = require('./../../config');
 
 const FN_ARGS = /^[^\(]*\([\{\s]*([^\)\}]*)[\}\s]*\)/m;
 const FN_ARG_SPLIT = /,/;
-const FN_ARG = /^\s*(\S+?)(id)?\s*(=\s*.+)?$/;
+const FN_ARG = /^\s*(\S+?)([iI]d)?\s*(=\s*.+)?$/;
 const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 const ID_PATTERN_END = '/(' + Config.router.primaryKeyPattern + ')';
 const ID_PATTERN = '/(' + Config.router.primaryKeyPattern + ')/';
 const FN_GET_ANNOTATION = /\/\/\s+@(\w+):?\s(.*)/g;
 const ID_OPTIONAL_START = '(?=.*';
 const ID_OPTIONAL_END = '=([^&\\s]+)|.*)';
+
+const CAMEL_TO_KEBAB = string => string.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 
 const makeRoute = function(method, handler, rootPath = '', factory, permission = null){
     const parsedFunction = reflection(handler);
@@ -30,7 +32,7 @@ const makeRoute = function(method, handler, rootPath = '', factory, permission =
 };
 
 const reflection = function(fn){
-    const fnString = Function.prototype.toString.call(fn).toLowerCase();
+    const fnString = Function.prototype.toString.call(fn);
     const fnTextArguments = fnString.replace(STRIP_COMMENTS, '');
     const fnDescription = {
         annotations: {},
@@ -43,7 +45,7 @@ const reflection = function(fn){
         fnDescription.annotations[key] = parameter;
     });
 
-    fnTextArguments.match(FN_ARGS)[1].split(FN_ARG_SPLIT).forEach((arg) => {
+    fnTextArguments.match(FN_ARGS)[1].split(FN_ARG_SPLIT).forEach(arg => {
         arg.replace(FN_ARG, (all, name, id, optional) => {
             fnDescription.arguments[optional ? 'optional' : 'required'].push({
                 name: name + (optional && id || ''),
@@ -72,10 +74,10 @@ const getStringRegexp = function (args, rootPath) {
         stringRegexp = rootPath;
     } else {
         stringRegexp = args.required.reduce(function (previousValue, currentItem, index) {
-            if (currentItem.name === rootPath.replace(/\W/g,'')) {
+            if (currentItem.name.toLowerCase() === rootPath.replace(/\W/g,'').toLowerCase()) {
                 return previousValue + rootPath + ID_PATTERN_END + (args.required.length - 1 !== index? "/" : "");
             } else {
-                if (args.required.length - 1 === index && args.required.indexOf(rootPath)) {
+                if (args.required.length - 1 === index) {
                     return previousValue + currentItem.name + ID_PATTERN + rootPath;
                 } else {
                     return previousValue + currentItem.name + ID_PATTERN;
@@ -83,6 +85,8 @@ const getStringRegexp = function (args, rootPath) {
             }
         }, "");
     }
+
+    stringRegexp = CAMEL_TO_KEBAB(stringRegexp);
 
     if (args.optional.length > 0) {
         stringRegexpOptional_1 = args.optional.reduce(function (previousValue, currentItem) {
