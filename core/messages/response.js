@@ -3,7 +3,7 @@ const Statuses                  = require("./statuses");
 
 class Response {
     constructor(res) {
-        this._serverResponse = res;
+        this.__response__ = res;
         this.statuses = Statuses;
         this._response = {
             status: this.statuses._200_OK,
@@ -32,13 +32,13 @@ class Response {
 
     send() {
         Object.keys(this._response.headers).forEach(headerName => {
-            this._serverResponse.setHeader(headerName, this._response.headers[headerName]);
+            this.__response__.setHeader(headerName, this._response.headers[headerName]);
         });
 
-        this._serverResponse.statusCode = this._response.status.code;
-        this._serverResponse.statusMessage = this._response.status.message;
+        this.__response__.statusCode = this._response.status.code;
+        this.__response__.statusMessage = this._response.status.message;
 
-        this._serverResponse.end((this._response.status.emptyBody || this._response.body === "") ? "" : JSON.stringify(this._response.body));
+        this.__response__.end((this._response.status.emptyBody || this._response.body === "") ? "" : JSON.stringify(this._response.body));
     }
 }
 
