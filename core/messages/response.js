@@ -1,12 +1,12 @@
-const Statuses                  = require("./statuses");
+const STATUSES                  = require("./statuses");
 
 
 class Response {
     constructor(res) {
         this.__response__ = res;
-        this.statuses = Statuses;
+        this.STATUSES = STATUSES;
         this._response = {
-            status: this.statuses._200_OK,
+            status: this.STATUSES._200_OK,
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
             },

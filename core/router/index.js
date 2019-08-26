@@ -65,25 +65,25 @@ class Router {
             .catch(function (error) {
                 if (error instanceof Errors.NotFound
                     || (error instanceof Errors.Database && error.originalError.errno === 1452 /* ER_NO_REFERENCED_ROW_2 */)) {
-                    this.response.status = this.response.statuses._404_NotFound;
+                    this.response.status = this.response.STATUSES._404_NotFound;
                 } else if (error instanceof Errors.BadRequest) {
-                    this.response.status = this.response.statuses._400_BadRequest;
+                    this.response.status = this.response.STATUSES._400_BadRequest;
                 } else if (error instanceof Errors.Validation){
-                    this.response.status = this.response.statuses._400_BadRequest;
+                    this.response.status = this.response.STATUSES._400_BadRequest;
                 } else if (error instanceof Errors.Unauthorized) {
                     this.response.headers["WWW-Authenticate"] = "Bearer";
-                    this.response.status = this.response.statuses._401_Unauthorized;
+                    this.response.status = this.response.STATUSES._401_Unauthorized;
                 } else if (error instanceof Errors.Forbidden) {
-                    this.response.status = this.response.statuses._403_Forbidden;
+                    this.response.status = this.response.STATUSES._403_Forbidden;
                 } else if (error instanceof Errors.Database && (
                     error.originalError.errno === 1062 /* ER_DUP_ENTRY */
                     || error.originalError.errno === 1451 /* ER_ROW_IS_REFERENCED_2 */ )
                 ){
-                    this.response.status = this.response.statuses._409_Conflict;
+                    this.response.status = this.response.STATUSES._409_Conflict;
                 } else if (error instanceof Errors.NotImplemented) {
-                    this.response.status = this.response.statuses._501_NotImplemented;
+                    this.response.status = this.response.STATUSES._501_NotImplemented;
                 } else {
-                    this.response.status = this.response.statuses._500_InternalServerError;
+                    this.response.status = this.response.STATUSES._500_InternalServerError;
                 }
                 return Config.env.production? (console.error(error), "") : error.toJSON? error : error.toString();
             }.bind(message))
