@@ -21,6 +21,10 @@ class Request {
         return this.__request__.headers.host.toLowerCase();
     }
 
+    get port() {
+        return this.__request__.client.localPort;
+    }
+
     get path() {
         const requestUrl = url.parse(this.__request__.url);
         return `${requestUrl.pathname.replace(/^\/|\/$/g, "").toLowerCase()}${requestUrl.search || ""}`;
