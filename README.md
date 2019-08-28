@@ -71,7 +71,7 @@ function (libraryShelvesId, favoriteBooksId, orderBy = "") { }
         id: Property.id(),
         name: Property.string().min(1).required(),
         isbn: Property.string().pattern(/^\d-\d{3}-\d{5}-\d$/).example("0-330-25864-8"),
-        authorId: Property.model("Autho"),
+        authorId: Property.model("Author"),
         genre: Property.set(["Fantasy", "Science fiction", "Western", "Romance"]),
         creationTime: Property.date().private(),
         modificationTime: Property.date().private()
