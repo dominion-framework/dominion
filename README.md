@@ -15,12 +15,12 @@ npx dominion create hello
 npm start
 ```
 This will run Node.js server with demo API's. 
-Open http://localhost:7000/hello to check results and examine 
+Open http://localhost:7042/hello to check results and examine 
 generated files in folder `components/hello` to see how it works. 
 
 # Documentation
 
-Read full documentation on [dominion.js.org](https://dominion.js.org/).
+Read full documentation on __[dominion.js.org](https://dominion.js.org/)__.
 
 # Features highlight
 
