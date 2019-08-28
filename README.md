@@ -98,5 +98,5 @@ Automatic OpenAPI documentation based on source code.
 
 ### Zero Dependencies
 
-100Kb footprint Node.js framework with __no__ npm dependencies. If you also think that
+100Kb footprint Node.js framework with __no__ npm dependencies. If you also think, that
 you don't need npm to [left-pad](https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/) a string. 
