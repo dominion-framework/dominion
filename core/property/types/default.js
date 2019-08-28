@@ -48,7 +48,8 @@ class DefaultProperty extends PropertyPrototype {
     }
 
     private() {
-        this._addOutputModification((outputObject, propertyName) => {
+        // callback should be named function, because it is used in open-api generation.
+        this._addOutputModification(function private(outputObject, propertyName) {
             delete outputObject[propertyName];
         });
         return this;
