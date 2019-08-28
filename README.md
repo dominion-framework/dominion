@@ -32,7 +32,7 @@ module.exports = {
     factory: BooksFactory,
 
     GET: [
-        // books/42?genre=western
+        // books?genre=western
         function (genre = null) {
             return BooksFactory.find({genre});
         }
