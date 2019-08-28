@@ -33,8 +33,8 @@ module.exports = {
 
     GET: [
         // books/42?genre=western
-        function (booksId, genre = null) {
-            return UsersFactory.find({}, limit, offset);
+        function (genre = null) {
+            return BooksFactory.find({genre});
         }
     ],
 
