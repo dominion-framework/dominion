@@ -91,7 +91,7 @@ function(isbn) {
 }
 ```
 
-## OpenAPI (Swagger) documentation
+### OpenAPI (Swagger) documentation
 
 Automatic OpenAPI documentation based on source code.
 
