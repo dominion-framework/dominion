@@ -82,7 +82,7 @@ const OpenApi = {
             };
 
             Object.entries(model.__model__.prototype.scheme).forEach(([propertyName, property]) => {
-                if([...property._outputModifications].some(modificatorFunction => modificatorFunction.name === "private")){
+                if([...property._outputModifications].some(modificatorFunction => modificatorFunction.name === "hidden")){
                     return null;
                 }
 
