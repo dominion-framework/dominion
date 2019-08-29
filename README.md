@@ -1,3 +1,5 @@
+![Dominion Node.js framework for RESTfull APIs](https://dominion.js.org/assets/logo.svg)
+
 # Dominion Node.js framework for RESTfull APIs
 [![Gitter](https://badges.gitter.im/dominion-framework/community.svg)](https://gitter.im/dominion-framework/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![install size](https://packagephobia.now.sh/badge?p=@dominion-framework/dominion)](https://packagephobia.now.sh/result?p=@dominion-framework/dominion)
