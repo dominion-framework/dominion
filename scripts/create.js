@@ -18,7 +18,7 @@ switch (action) {
 
 
 function createComponent(componentName, repo) {
-    const componentPath = `components/${componentName}`;
+    const componentPath = `components/${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
     componentName = componentName.split("/").map(s => s[0].toUpperCase() + s.substring(1)).join("");
 
     if(fs.existsSync(componentPath)) {
