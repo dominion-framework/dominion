@@ -8,11 +8,11 @@ const registeredRoutes = new Map();
 
 class Router {
 
-    static makeRoute (){
+    static makeRoute() {
         return makeRoute.apply(this, arguments);
     }
 
-    static addRoutes (routes) {
+    static addRoutes(routes) {
         if (!routes) {
             throw new Errors.Fatal("Routes definitions is missing");
         }
@@ -36,7 +36,7 @@ class Router {
         return routes;
     };
 
-    static handle (req, res) {
+    static handle(req, res) {
         const message = new Messages(req, res);
         const [args, handler] = findRoute(message.request.method, message.request.path);
 
@@ -56,8 +56,8 @@ class Router {
             .then(body => {
                 if (body
                     && handler.factory
-                    && ((Array.isArray(body) && !body.every(model => model instanceof handler.factory.__model__))
-                        || !(body instanceof handler.factory.__model__))) {
+                    && (Array.isArray(body) ? body.some(model => !(model instanceof handler.factory.__model__))
+                        : !(body instanceof handler.factory.__model__))) {
                     throw new Errors.Fatal(`Response has to be an instance or instances array of '${handler.factory.__model__.name}' factory. But given: ${body}`);
                 }
                 return body;
@@ -68,7 +68,7 @@ class Router {
                     this.response.status = this.response.STATUSES._404_NotFound;
                 } else if (error instanceof Errors.BadRequest) {
                     this.response.status = this.response.STATUSES._400_BadRequest;
-                } else if (error instanceof Errors.Validation){
+                } else if (error instanceof Errors.Validation) {
                     this.response.status = this.response.STATUSES._400_BadRequest;
                 } else if (error instanceof Errors.Unauthorized) {
                     this.response.headers["WWW-Authenticate"] = "Bearer";
@@ -77,15 +77,15 @@ class Router {
                     this.response.status = this.response.STATUSES._403_Forbidden;
                 } else if (error instanceof Errors.Database && (
                     error.originalError.errno === 1062 /* ER_DUP_ENTRY */
-                    || error.originalError.errno === 1451 /* ER_ROW_IS_REFERENCED_2 */ )
-                ){
+                    || error.originalError.errno === 1451 /* ER_ROW_IS_REFERENCED_2 */)
+                ) {
                     this.response.status = this.response.STATUSES._409_Conflict;
                 } else if (error instanceof Errors.NotImplemented) {
                     this.response.status = this.response.STATUSES._501_NotImplemented;
                 } else {
                     this.response.status = this.response.STATUSES._500_InternalServerError;
                 }
-                return Config.env.production? (console.error(error), "") : error.toJSON? error : error.toString();
+                return Config.env.production ? (console.error(error), "") : error.toJSON ? error : error.toString();
             }.bind(message))
             .then(function (body) {
                 this.response.body = body;
@@ -112,7 +112,9 @@ const findRoute = function (method, path) {
         }
     }
 
-    return [[],makeRoute(method, function(){throw new Errors.NotImplemented(`Route '/${path}" does not exist.`)})];
+    return [[], makeRoute(method, function () {
+        throw new Errors.NotImplemented(`Route '/${path}" does not exist.`)
+    })];
 };
 
 module.exports = Router;
