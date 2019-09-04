@@ -18,12 +18,12 @@ class ModelFactoryPrototype {
         });
     }
 
-    find (criteria = {}, limit, offset, order) {
+    find (criteria = {}, offset, limit, order) {
         if(!this.repo) {
             throw new Errors.Fatal(`Can not get models '${this.__name__}' because repository is not defined. Add property 'repository' in model declaration.`);
         }
 
-        return this.repo.find(criteria, limit, offset, order)
+        return this.repo.find(criteria, offset, limit, order)
             .then(rows => Promise.all(rows.map(row => this.new(row, false))));
     }
 
