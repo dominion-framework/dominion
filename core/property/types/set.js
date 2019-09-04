@@ -18,7 +18,7 @@ class SetProperty extends DefaultProperty {
         this._addValidator((value, propertyName) => {
             value && value.forEach((val) => {
                 if (!this.valuesList.includes(val)) {
-                    throw new Errors.Validation(`property ${propertyName} should only contain values from enum: ${this.valuesList.join(', ')}, given '${val}'`);
+                    throw new Errors.Validation(`property ${propertyName} should only contain values from enum: ${this.valuesList.map(val => `${val} (${typeof val})`).join(', ')}, given '${val} (${typeof val})'`);
                 }
             });
         });
