@@ -9,7 +9,7 @@ class ModelFactoryPrototype {
     }
 
     get (criteria) {
-        return this.find(criteria, 1, 0).then((models) => {
+        return this.find(criteria, 0, 1).then((models) => {
             if (models.length) {
                 return models[0];
             } else {
