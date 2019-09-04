@@ -151,7 +151,7 @@ module.exports = {
     factory: ${componentName}Factory,
 
     GET: [
-        //${componentName.toLowerCase()}?offset=0&limit=10
+        //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}?offset=0&limit=10
         function (offset = 0, limit = 10) {
             // @summary: ${componentName === "Hello"? "Demo endpoint with optional arguments" : ""}
             // @description: ${componentName === "Hello"? `Open http://localhost:7042/${componentName.toLowerCase()}?offset=0&limit=10 to see results` : ""}
@@ -164,7 +164,7 @@ module.exports = {
         }${componentName === "Hello" ?
             `,
             
-        //${componentName.toLowerCase()}/42
+        //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}/42
         function (${componentName.toLowerCase()}Id) {
             // @summary: '@summary' and '@description' annotations will be used for generating OpenApi docs
             // @description: Open http://localhost:7042/${componentName.toLowerCase()}/42 to see results 
@@ -179,7 +179,7 @@ module.exports = {
     ],
 
     POST: [
-        //${componentName.toLowerCase()}
+        //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}
         function (${componentName === "Hello" ? "id" : ""}) {
             ${componentName === "Hello"? "// @path: custom\\/url\\/(\\d+)" : ""}
                         
@@ -188,7 +188,7 @@ module.exports = {
     ],
 
     PUT: [
-        //${componentName.toLowerCase()}/42
+        //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}/42
         function (${componentName.toLowerCase()}Id) {
             
             return ;
@@ -196,7 +196,7 @@ module.exports = {
     ],
 
     DELETE: [
-        //${componentName.toLowerCase()}/42
+        //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}/42
         function (${componentName.toLowerCase()}Id) {
             
             return ;
