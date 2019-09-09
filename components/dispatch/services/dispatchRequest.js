@@ -30,7 +30,7 @@ class DispatchRequest {
     }
 
     on(event, cb) {
-        event === "end" && cb(JSON.stringify(this.message.body));
+        event === "end" && cb(this.message.body === ""? "" : JSON.stringify(this.message.body));
         return this;
     }
 }
