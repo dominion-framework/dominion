@@ -1,6 +1,6 @@
 {
   "name": "@dominion-framework/dominion",
-  "version": "0.2.23",
+  "version": "0.2.24",
   "description": "Declarative Promise based Node.js framework for REST API with zero dependencies.",
   "homepage": "https://dominion.js.org",
   "repository": {
