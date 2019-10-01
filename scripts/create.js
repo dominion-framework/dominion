@@ -52,7 +52,7 @@ function createIndex() {
     }
 
     const projectIndex =
-`const Server = require("@dominion-framework/dominion");
+        `const Server = require("@dominion-framework/dominion");
 
 Server.addComponent(require("@dominion-framework/dominion/components/cors"));
 Server.addComponent(require("@dominion-framework/dominion/components/logging"));
@@ -84,13 +84,13 @@ function createConfig() {
     }
 
     const indexConfig =
-`const config = require("./config.dev");
+        `const config = require("./config.dev");
 
 module.exports = config; 
 `;
 
     const projectConfig =
-`module.exports = {
+        `module.exports = {
     server: {
         protocol: "http",
         host: "localhost",
@@ -124,7 +124,7 @@ module.exports = config;
 
 function createComponentDeclaration(componentName, componentPath) {
     const componentDeclaration =
-`module.exports = {
+        `module.exports = {
     factories: [
         __dirname + '/factory',
     ],
@@ -141,7 +141,7 @@ function createComponentDeclaration(componentName, componentPath) {
 
 function createControllerDeclaration(componentName, componentPath) {
     const controllerDeclaration =
-`const Factories = require("@dominion-framework/dominion/core/factories");
+        `const Factories = require("@dominion-framework/dominion/core/factories");
 
 const ${componentName}Factory = Factories("${componentName}");
 
@@ -156,16 +156,16 @@ module.exports = {
             // @summary: ${componentName === "Hello"? "Demo endpoint with optional arguments" : ""}
             // @description: ${componentName === "Hello"? `Open http://localhost:7042/${componentName.toLowerCase()}?offset=0&limit=10 to see results` : ""}
 
-            ${componentName === "Hello"? 
+            ${componentName === "Hello"?
             "return HelloFactory.new({message: `Welcome to Dominion! Nice to meet you! [${offset}, ${limit}]` });"
             :
             "return ;"
-            }
+        }
         }${componentName === "Hello" ?
             `,
             
         //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}/42
-        function (${componentName.toLowerCase()}Id) {
+        function (${componentName[0].toLowerCase() + componentName.substring(1)}Id) {
             // @summary: '@summary' and '@description' annotations will be used for generating OpenApi docs
             // @description: Open http://localhost:7042/${componentName.toLowerCase()}/42 to see results 
             
@@ -174,8 +174,8 @@ module.exports = {
                 email: "my.name@example.com"
             });
         }`
-        :
-        ""}
+            :
+            ""}
     ],
 
     POST: [
@@ -189,7 +189,7 @@ module.exports = {
 
     PUT: [
         //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}/42
-        function (${componentName.toLowerCase()}Id) {
+        function (${componentName[0].toLowerCase() + componentName.substring(1)}Id) {
             
             return ;
         }
@@ -197,7 +197,7 @@ module.exports = {
 
     DELETE: [
         //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}/42
-        function (${componentName.toLowerCase()}Id) {
+        function (${componentName[0].toLowerCase() + componentName.substring(1)}Id) {
             
             return ;
         }
@@ -210,7 +210,7 @@ module.exports = {
 
 function createFactoryDeclaration(componentName, componentPath) {
     const factoriesDeclaration =
-`const Property = require("@dominion-framework/dominion/core/property");
+        `const Property = require("@dominion-framework/dominion/core/property");
 
 
 module.exports = {
