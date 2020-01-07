@@ -36,7 +36,7 @@ class Collections {
                         model.scheme[propertyName]._output(modelReference, propertyName);
                         return modelReference[propertyName];
                     })
-                    .filter(modelReference => missingChildModelsReferences.every(ref => ref.link !== modelReference.link)
+                    .filter(modelReference => modelReference && missingChildModelsReferences.every(ref => ref.link !== modelReference.link)
                         && !this.has(modelReference))
             );
         });
