@@ -10,7 +10,7 @@ class FileSystemStorage {
     static fileSave(uploadfile) {
 
         let result = {};
-        let file = new Buffer(uploadfile.file, 'base64');
+        let file = Buffer.from(uploadfile.file, 'base64');
         let dirPath = path.resolve(Config.media.saveDir);
 
         if (!fs.existsSync(dirPath)) {
