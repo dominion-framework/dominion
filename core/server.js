@@ -22,18 +22,23 @@ class Server {
         const environment = Object.entries(Config.env).find(([env, flag]) => flag)[0];
         const Http = Config.server.protocol === "http"? require("http") : require("https");
 
+        const serverAddress = Config.server.path? Config.server.path : `${Config.server.protocol}://${Config.server.host}:${Config.server.port}/`;
+        if(Config.server.path) {
+            delete Config.server.port;
+        }
+
         componentsRegistration.call(this);
         this.server = Http.createServer(Config.server, Router.handle);
         this.server.once("error", error => {
             if (error.code === 'EADDRINUSE') {
-                console.log('\x1b[31m%s\x1b[0m', `Server failed to start at ${Config.server.protocol}://${Config.server.host}:${Config.server.port}/. Port ${Config.server.port} is in use.`);
+                console.log('\x1b[31m%s\x1b[0m', `Server failed to start at ${serverAddress}. Port ${Config.server.port} is in use.`);
             } else {
                 console.log(error);
             }
         });
         this.server.listen(Config.server, () => {
             componentsBootstrap.call(this);
-            console.log('\x1b[32m%s\x1b[0m', `Server is running at ${Config.server.protocol}://${Config.server.host}:${Config.server.port}/ in ${environment} mode...`);
+            console.log('\x1b[32m%s\x1b[0m', `Server is running at ${serverAddress} in ${environment} mode...`);
         });
     }
 
