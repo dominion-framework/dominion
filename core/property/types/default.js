@@ -55,6 +55,11 @@ class DefaultProperty extends PropertyPrototype {
         return this;
     }
 
+    immutable() {
+        this.isImmutable = true;
+        return this;
+    }
+
     primaryKey() {
         this.isPrimaryKey = true;
         return this;
