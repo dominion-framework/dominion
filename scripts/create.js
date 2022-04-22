@@ -261,10 +261,12 @@ module.exports = {
         function (${componentVarName}Id) {
             return ${componentName}Factory.get({ id: ${componentVarName}Id })
                 .then(${componentVarName} => ${componentVarName}.remove())
-                .then(result => {
-                    if (result.affectedRows > 0) {
+                .then(${componentVarName} => Promise.all([${componentVarName},${componentVarName}.remove()]))
+                .then(([${componentVarName}, result]) => {
+                    if (result.affectedRows) {
                         this.response.status = this.response.STATUSES._204_NoContent;
                     }
+                    return ${componentVarName};
                 });
         }
     ]
