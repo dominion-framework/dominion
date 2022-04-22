@@ -35,7 +35,13 @@ function createComponent(componentName, repo) {
     }
 
     createComponentDeclaration(componentName, componentPath);
-    createControllerDeclaration(componentName, componentPath);
+
+    if(repo) {
+        createControllerDeclarationWithRepository(componentName, componentPath);
+    } else {
+        createControllerDeclaration(componentName, componentPath);
+    }
+
     if(repo) {
         createFactoryDeclarationWithRepository(componentName, componentPath);
     } else {
@@ -208,6 +214,66 @@ module.exports = {
     fs.writeFileSync(path.resolve(componentPath, "controller.js"), controllerDeclaration, 'utf8');
 }
 
+function createControllerDeclarationWithRepository(componentName, componentPath) {
+    const componentVarName = `${componentName[0].toLowerCase() + componentName.substring(1)}`;
+    const controllerDeclaration =
+        `const Factories = require("@dominion-framework/dominion/core/factories");
+
+const ${componentName}Factory = Factories("${componentName}");
+
+
+module.exports = {
+
+    factory: ${componentName}Factory,
+
+    GET: [
+        //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}?offset=0&limit=10&order=+id
+        function (offset = 0, limit = 10, order = "+id") {
+            return ${componentName}Factory.find({}, offset, limit, order);
+        },
+        
+        //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}/42
+        function (${componentVarName}Id) {
+            return ${componentName}Factory.get({ id: ${componentVarName}Id });
+        }
+    ],
+
+    POST: [
+        //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}
+        function () {
+            return ${componentName}Factory.new(this.request.body)
+                .then(${componentVarName} => ${componentVarName}.save())
+                .then(${componentVarName} => ${componentName}Factory.get({ id: ${componentVarName}.id }));
+        }
+    ],
+
+    PUT: [
+        //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}/42
+        function (${componentVarName}Id) {
+            return ${componentName}Factory.get({ id: ${componentVarName}Id })
+                .then(${componentVarName} => ${componentVarName}.populate(this.request.body))
+                .then(${componentVarName} => ${componentVarName}.save());
+        }
+    ],
+
+    DELETE: [
+        //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}/42
+        function (${componentVarName}Id) {
+            return ${componentName}Factory.get({ id: ${componentVarName}Id })
+                .then(${componentVarName} => ${componentVarName}.remove())
+                .then(result => {
+                    if (result.affectedRows > 0) {
+                        this.response.status = this.response.STATUSES._204_NoContent;
+                    }
+                });
+        }
+    ]
+    
+};    
+`;
+    fs.writeFileSync(path.resolve(componentPath, "controller.js"), controllerDeclaration, 'utf8');
+}
+
 function createFactoryDeclaration(componentName, componentPath) {
     const factoriesDeclaration =
         `const Property = require("@dominion-framework/dominion/core/property");
@@ -276,7 +342,7 @@ module.exports = {
         `const Repositories = require("@dominion-framework/repository-mysql");
 
 
-module.exports = Repositories.create('${componentName.toLowerCase()}_table_name', {
+module.exports = Repositories.create('${componentName.toLowerCase()}', {
 
 });    
 `;
