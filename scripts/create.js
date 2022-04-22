@@ -260,7 +260,6 @@ module.exports = {
         //${componentName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}/42
         function (${componentVarName}Id) {
             return ${componentName}Factory.get({ id: ${componentVarName}Id })
-                .then(${componentVarName} => ${componentVarName}.remove())
                 .then(${componentVarName} => Promise.all([${componentVarName},${componentVarName}.remove()]))
                 .then(([${componentVarName}, result]) => {
                     if (result.affectedRows) {
