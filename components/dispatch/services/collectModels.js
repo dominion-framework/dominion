@@ -1,4 +1,4 @@
-const Router                    = use("core/router");
+const Router                    = require("./../../../core/router");
 
 const Collections               = require("./collections");
 const DispatchRequest           = require("./dispatchRequest");

@@ -1,4 +1,4 @@
-const ModelProperty             = use("core/property/types/model");
+const ModelProperty             = require("./../../../core/property/types/model");
 
 
 class Collections {
